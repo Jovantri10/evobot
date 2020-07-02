@@ -1,8 +1,8 @@
 {
   "TOKEN": "",
-  "YOUTUBE_API_KEY": "",
+  "YOUTUBE_API_KEY": "AIzaSyDxHGG74fdTnU2pqAiAxt7h5LA_9yHVQhU",
   "SOUNDCLOUD_CLIENT_ID": "",
   "MAX_PLAYLIST_SIZE": 10,
-  "PREFIX": "/",
+  "PREFIX": "Van ",
   "PRUNING": false
 }
