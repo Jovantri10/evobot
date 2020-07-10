@@ -95,11 +95,16 @@ module.exports = {
         return message.reply("No video was found with a matching title").catch(console.error);
       }
     }
+    const { MessageEmbed } = require("discord.js")
+    const babicantik = new MessageEmbed()
+    .setTitle("Added Song")
+    .setDescription(`<a:verify10:698678441502965851> Succes to added ${song.title} to queue \nAdded By : ${message.author}`)
+    .setFooter(`${song.duration} second`)
 
     if (serverQueue) {
       serverQueue.songs.push(song);
       return serverQueue.textChannel
-        .send(`✅ **${song.title}** has been added to the queue by ${message.author}`)
+        .send(babicantik)
         .catch(console.error);
     }
 
