@@ -10,7 +10,7 @@ module.exports = {
     if (!song) {
       queue.channel.leave();
       message.client.queue.delete(message.guild.id);
-      return queue.textChannel.send("🚫 Music queue ended.").catch(console.error);
+      return queue.textChannel.send("<a:Chekbaru:712209716645724221> Music queue is ended.").catch(console.error);
     }
 
     let stream = null;
@@ -60,8 +60,14 @@ module.exports = {
       });
     dispatcher.setVolumeLogarithmic(queue.volume / 100);
 
+    const { MessageEmbed } = require("discord.js")
+    const prodev = new MessageEmbed()
+    .setTitle("Start Playing Music")
+    .setDescription(`<a:HatiMel:712209640750055464> SONG : **${song.title}** \n<a:HatiMel:712209640750055464> DURATION : **${song.duration} second** \n<a:HatiMel:712209640750055464> LINK : [${song.title}](${song.url}) \n<a:HatiMel:712209640750055464> PLAYER : ${message.author}`)
+    .setColor("FFF000");
+
     try {
-      var playingMessage = await queue.textChannel.send(`🎶 Started playing: **${song.title}** ${song.url}`);
+      var playingMessage = await queue.textChannel.send(prodev);
       await playingMessage.react("⏭");
       await playingMessage.react("⏯");
       await playingMessage.react("🔁");
@@ -79,13 +85,24 @@ module.exports = {
       if (!queue) return;
       const member = message.guild.member(user);
 
+    const skip = new MessageEmbed()
+    .setTitle(`${user} Succes Skipped The Song`)
+    const pause = new MessageEmbed()
+    .setTitle(`${user} Has Pause The Music`)
+    const resume = new MessageEmbed()
+    .setTitle(`${user} Has Resume The Music\nStarted Resume **`${song.title}`** now`)
+    const lolp = new MessageEmbed()
+    .setTitle(`Loop is now ${queue.loop ? "**on**" : "**off**"}`)
+    const plsstop = new MessageEmbed()
+    .setTitle(`${user} Stopped The Music!\nBye Bye 👋`)
+
       switch (reaction.emoji.name) {
         case "⏭":
           queue.playing = true;
           reaction.users.remove(user).catch(console.error);
           if (!canModifyQueue(member)) return;
           queue.connection.dispatcher.end();
-          queue.textChannel.send(`${user} ⏩ skipped the song`).catch(console.error);
+          queue.textChannel.send(skip).catch(console.error);
           collector.stop();
           break;
 
@@ -95,11 +112,11 @@ module.exports = {
           if (queue.playing) {
             queue.playing = !queue.playing;
             queue.connection.dispatcher.pause(true);
-            queue.textChannel.send(`${user} ⏸ paused the music.`).catch(console.error);
+            queue.textChannel.send(pause).catch(console.error);
           } else {
             queue.playing = !queue.playing;
             queue.connection.dispatcher.resume();
-            queue.textChannel.send(`${user} ▶ resumed the music!`).catch(console.error);
+            queue.textChannel.send(resume).catch(console.error);
           }
           break;
 
@@ -107,14 +124,14 @@ module.exports = {
           reaction.users.remove(user).catch(console.error);
           if (!canModifyQueue(member)) return;
           queue.loop = !queue.loop;
-          queue.textChannel.send(`Loop is now ${queue.loop ? "**on**" : "**off**"}`).catch(console.error);
+          queue.textChannel.send(loolp).catch(console.error);
           break;
 
         case "⏹":
           reaction.users.remove(user).catch(console.error);
           if (!canModifyQueue(member)) return;
           queue.songs = [];
-          queue.textChannel.send(`${user} ⏹ stopped the music!`).catch(console.error);
+          queue.textChannel.send(plsstop).catch(console.error);
           try {
             queue.connection.dispatcher.end();
           } catch (error) {
