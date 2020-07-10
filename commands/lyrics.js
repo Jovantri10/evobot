@@ -13,12 +13,13 @@ module.exports = {
 
     try {
       lyrics = await lyricsFinder(queue.songs[0].title, "");
+      if (!lyrics) lyrics = `No lyrics found for ${queue.songs[0].title}.`;
     } catch (error) {
       lyrics = `No lyrics found for ${queue.songs[0].title}.`;
     }
 
     let lyricsEmbed = new MessageEmbed()
-      .setTitle("<a:Cd:712209778478415902> Lyrics")
+      .setTitle(" <a:Cd:712209778478415902> Lyrics")
       .setDescription(lyrics)
       .setColor("#FFF000")
       .setTimestamp();
